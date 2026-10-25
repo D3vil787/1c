@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">
+	<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Минимальные остатки</v8:content></v8:item></Title>
+	<AutoTitle>false</AutoTitle>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+	</Events>
+	<ChildItems>
+		<CheckBoxField name="ТолькоДостигшие" id="1">
+			<DataPath>ТолькоДостигшие</DataPath>
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Только позиции, которые нужно заказать</v8:content></v8:item></Title>
+			<TitleLocation>Right</TitleLocation>
+			<CheckBoxType>Auto</CheckBoxType>
+			<ContextMenu name="ТолькоДостигшиеКонтекстноеМеню" id="2"/>
+			<ExtendedTooltip name="ТолькоДостигшиеРасширеннаяПодсказка" id="3"/>
+		</CheckBoxField>
+		<Button name="Сформировать" id="4">
+			<Type>UsualButton</Type>
+			<CommandName>Form.Command.Сформировать</CommandName>
+			<ExtendedTooltip name="СформироватьРасширеннаяПодсказка" id="5"/>
+		</Button>
+		<Button name="ОтправитьТест" id="9">
+			<Type>UsualButton</Type>
+			<CommandName>Form.Command.ОтправитьТест</CommandName>
+			<ExtendedTooltip name="ОтправитьТестРасширеннаяПодсказка" id="10"/>
+		</Button>
+		<Button name="ВключитьРасписание" id="11">
+			<Type>UsualButton</Type>
+			<CommandName>Form.Command.ВключитьРасписание</CommandName>
+			<ExtendedTooltip name="ВключитьРасписаниеРасширеннаяПодсказка" id="12"/>
+		</Button>
+		<SpreadSheetDocumentField name="Результат" id="6">
+			<DataPath>Результат</DataPath>
+			<TitleLocation>None</TitleLocation>
+			<ContextMenu name="РезультатКонтекстноеМеню" id="7"/>
+			<ExtendedTooltip name="РезультатРасширеннаяПодсказка" id="8"/>
+			<Events>
+				<Event name="Selection">РезультатВыбор</Event>
+			</Events>
+		</SpreadSheetDocumentField>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:ReportObject.МинОстаткиОтчет</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="Результат" id="2">
+			<Type>
+				<v8:Type xmlns:mxl="http://v8.1c.ru/8.2/data/spreadsheet">mxl:SpreadsheetDocument</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="ТолькоДостигшие" id="3">
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Сформировать" id="1">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Сформировать</v8:content></v8:item></Title>
+			<Action>Сформировать</Action>
+		</Command>
+		<Command name="ОтправитьТест" id="2">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Отправить тестовое письмо</v8:content></v8:item></Title>
+			<Action>ОтправитьТест</Action>
+		</Command>
+		<Command name="ВключитьРасписание" id="3">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Включить ежедневную отправку (08:00)</v8:content></v8:item></Title>
+			<Action>ВключитьРасписание</Action>
+		</Command>
+	</Commands>
+</Form>

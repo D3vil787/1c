@@ -1,0 +1,171 @@
+﻿<MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">
+	<InformationRegister uuid="49607dbf-e7d2-43fe-a2ff-8e70ce0a5d54">
+		<InternalInfo>
+			<xr:GeneratedType name="InformationRegisterRecord.ПодтвержденныеПотери" category="Record">
+				<xr:TypeId>92f90ff0-5c9f-4563-94d8-54608dde0d76</xr:TypeId>
+				<xr:ValueId>afe24ae8-e014-4cbb-8b5a-0e5c46cca667</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="InformationRegisterManager.ПодтвержденныеПотери" category="Manager">
+				<xr:TypeId>566bcd85-d483-48c7-be08-428511be313d</xr:TypeId>
+				<xr:ValueId>64f2d63f-f7fb-443a-b94c-67fe46353964</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="InformationRegisterSelection.ПодтвержденныеПотери" category="Selection">
+				<xr:TypeId>8120194c-c79d-4ee4-8332-deb70b44bd4c</xr:TypeId>
+				<xr:ValueId>e6db5ec2-fb3a-4f10-b039-ccf3d4a99641</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="InformationRegisterList.ПодтвержденныеПотери" category="List">
+				<xr:TypeId>d498b89b-a3ba-4a5c-907e-51a1fe4eab5a</xr:TypeId>
+				<xr:ValueId>7a04e980-830e-4208-a457-e19b070b14cd</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="InformationRegisterRecordSet.ПодтвержденныеПотери" category="RecordSet">
+				<xr:TypeId>3d20b5f2-70e0-4cf5-8c86-36728f9ec98d</xr:TypeId>
+				<xr:ValueId>24182615-f054-4b34-97ac-13cc0cfd9401</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="InformationRegisterRecordKey.ПодтвержденныеПотери" category="RecordKey">
+				<xr:TypeId>fbd0dd1e-7b4a-4d5c-90cc-36c74a03d0f5</xr:TypeId>
+				<xr:ValueId>5b7897ae-3616-45ff-b5db-1e9608dc3061</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="InformationRegisterRecordManager.ПодтвержденныеПотери" category="RecordManager">
+				<xr:TypeId>c230a1fb-b4dd-407e-98f5-0092481964ca</xr:TypeId>
+				<xr:ValueId>effecd48-4da8-4e25-bc30-f3a2f8759413</xr:ValueId>
+			</xr:GeneratedType>
+		</InternalInfo>
+		<Properties>
+			<Name>ПодтвержденныеПотери</Name>
+			<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Подтвержденные потери (пропавшие предметы)</v8:content></v8:item></Synonym>
+			<Comment/>
+			<UseStandardCommands>false</UseStandardCommands>
+			<EditType>InDialog</EditType>
+			<DefaultRecordForm/>
+			<DefaultListForm/>
+			<AuxiliaryRecordForm/>
+			<AuxiliaryListForm/>
+			<InformationRegisterPeriodicity>Nonperiodical</InformationRegisterPeriodicity>
+			<WriteMode>Independent</WriteMode>
+			<MainFilterOnPeriod>false</MainFilterOnPeriod>
+			<IncludeHelpInContents>false</IncludeHelpInContents>
+			<DataLockControlMode>Automatic</DataLockControlMode>
+			<FullTextSearch>DontUse</FullTextSearch>
+			<EnableTotalsSliceFirst>false</EnableTotalsSliceFirst>
+			<EnableTotalsSliceLast>false</EnableTotalsSliceLast>
+			<RecordPresentation/>
+			<ExtendedRecordPresentation/>
+			<ListPresentation/>
+			<ExtendedListPresentation/>
+			<Explanation/>
+		</Properties>
+		<ChildObjects>
+			<Resource uuid="6745c52b-8fdf-4ab0-98e3-9b8099add131">
+				<Properties>
+					<Name>Дата</Name>
+					<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Дата подтверждения</v8:content></v8:item></Synonym>
+					<Comment/>
+					<Type><v8:Type>xs:dateTime</v8:Type><v8:DateQualifiers><v8:DateFractions>DateTime</v8:DateFractions></v8:DateQualifiers></Type>
+					<PasswordMode>false</PasswordMode>
+					<Format/>
+					<EditFormat/>
+					<ToolTip/>
+					<MarkNegatives>false</MarkNegatives>
+					<Mask/>
+					<MultiLine>false</MultiLine>
+					<ExtendedEdit>false</ExtendedEdit>
+					<MinValue xsi:nil="true"/>
+					<MaxValue xsi:nil="true"/>
+					<FillChecking>DontCheck</FillChecking>
+					<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+					<ChoiceParameterLinks/>
+					<ChoiceParameters/>
+					<QuickChoice>Auto</QuickChoice>
+					<CreateOnInput>Auto</CreateOnInput>
+					<ChoiceForm/>
+					<LinkByType/>
+					<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
+				</Properties>
+			</Resource>
+			<Resource uuid="b5e2f9f6-1fe5-4b1f-bbfc-50c7bb590260">
+				<Properties>
+					<Name>Пользователь</Name>
+					<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Пользователь</v8:content></v8:item></Synonym>
+					<Comment/>
+					<Type><v8:Type>xs:string</v8:Type><v8:StringQualifiers><v8:Length>0</v8:Length><v8:AllowedLength>Variable</v8:AllowedLength></v8:StringQualifiers></Type>
+					<PasswordMode>false</PasswordMode>
+					<Format/>
+					<EditFormat/>
+					<ToolTip/>
+					<MarkNegatives>false</MarkNegatives>
+					<Mask/>
+					<MultiLine>false</MultiLine>
+					<ExtendedEdit>false</ExtendedEdit>
+					<MinValue xsi:nil="true"/>
+					<MaxValue xsi:nil="true"/>
+					<FillChecking>DontCheck</FillChecking>
+					<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+					<ChoiceParameterLinks/>
+					<ChoiceParameters/>
+					<QuickChoice>Auto</QuickChoice>
+					<CreateOnInput>Auto</CreateOnInput>
+					<ChoiceForm/>
+					<LinkByType/>
+					<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
+				</Properties>
+			</Resource>
+			<Resource uuid="fbef766a-4b43-4bcb-9af3-e417e5ac33b5">
+				<Properties>
+					<Name>Комментарий</Name>
+					<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Комментарий</v8:content></v8:item></Synonym>
+					<Comment/>
+					<Type><v8:Type>xs:string</v8:Type><v8:StringQualifiers><v8:Length>0</v8:Length><v8:AllowedLength>Variable</v8:AllowedLength></v8:StringQualifiers></Type>
+					<PasswordMode>false</PasswordMode>
+					<Format/>
+					<EditFormat/>
+					<ToolTip/>
+					<MarkNegatives>false</MarkNegatives>
+					<Mask/>
+					<MultiLine>false</MultiLine>
+					<ExtendedEdit>false</ExtendedEdit>
+					<MinValue xsi:nil="true"/>
+					<MaxValue xsi:nil="true"/>
+					<FillChecking>DontCheck</FillChecking>
+					<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+					<ChoiceParameterLinks/>
+					<ChoiceParameters/>
+					<QuickChoice>Auto</QuickChoice>
+					<CreateOnInput>Auto</CreateOnInput>
+					<ChoiceForm/>
+					<LinkByType/>
+					<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
+				</Properties>
+			</Resource>
+			<Dimension uuid="8722c332-b06b-40c5-aa74-005bdfda08ad">
+				<Properties>
+					<Name>Карточка</Name>
+					<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Карточка</v8:content></v8:item></Synonym>
+					<Comment/>
+					<Type><v8:Type>cfg:CatalogRef.КарточкиНоменклатуры</v8:Type></Type>
+					<PasswordMode>false</PasswordMode>
+					<Format/>
+					<EditFormat/>
+					<ToolTip/>
+					<MarkNegatives>false</MarkNegatives>
+					<Mask/>
+					<MultiLine>false</MultiLine>
+					<ExtendedEdit>false</ExtendedEdit>
+					<MinValue xsi:nil="true"/>
+					<MaxValue xsi:nil="true"/>
+					<FillChecking>DontCheck</FillChecking>
+					<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+					<ChoiceParameterLinks/>
+					<ChoiceParameters/>
+					<QuickChoice>Auto</QuickChoice>
+					<CreateOnInput>Auto</CreateOnInput>
+					<ChoiceForm/>
+					<LinkByType/>
+					<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
+					<Master>false</Master>
+					<MainFilter>true</MainFilter>
+					<DenyIncompleteValues>false</DenyIncompleteValues>
+				</Properties>
+			</Dimension>
+		</ChildObjects>
+	</InformationRegister>
+</MetaDataObject>

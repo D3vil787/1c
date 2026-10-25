@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">
+	<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Инвентаризации по местам хранения</v8:content></v8:item></Title>
+	<AutoTitle>false</AutoTitle>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<UsualGroup name="ГруппаШапка" id="40">
+			<Group>Horizontal</Group>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаШапкаРасширеннаяПодсказка" id="41"/>
+			<ChildItems>
+				<UsualGroup name="ГруппаКнопки" id="42">
+					<Group>Vertical</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаКнопкиРасширеннаяПодсказка" id="43"/>
+					<ChildItems>
+						<Button name="Сформировать" id="1">
+							<Type>UsualButton</Type>
+							<CommandName>Form.Command.Сформировать</CommandName>
+							<ExtendedTooltip name="СформироватьРасширеннаяПодсказка" id="2"/>
+						</Button>
+						<Button name="СортМесто" id="20">
+							<Type>UsualButton</Type>
+							<CommandName>Form.Command.СортМесто</CommandName>
+							<ExtendedTooltip name="СортМестоРасширеннаяПодсказка" id="21"/>
+						</Button>
+						<Button name="СортДатаСтарые" id="22">
+							<Type>UsualButton</Type>
+							<CommandName>Form.Command.СортДатаСтарые</CommandName>
+							<ExtendedTooltip name="СортДатаСтарыеРасширеннаяПодсказка" id="23"/>
+						</Button>
+						<Button name="СортДатаНовые" id="24">
+							<Type>UsualButton</Type>
+							<CommandName>Form.Command.СортДатаНовые</CommandName>
+							<ExtendedTooltip name="СортДатаНовыеРасширеннаяПодсказка" id="25"/>
+						</Button>
+						<Button name="СортСтарая" id="26">
+							<Type>UsualButton</Type>
+							<CommandName>Form.Command.СортСтарая</CommandName>
+							<ExtendedTooltip name="СортСтараяРасширеннаяПодсказка" id="27"/>
+						</Button>
+					</ChildItems>
+				</UsualGroup>
+				<UsualGroup name="ГруппаПрогресс" id="44">
+					<Group>Vertical</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="ГруппаПрогрессРасширеннаяПодсказка" id="45"/>
+					<ChildItems>
+						<UsualGroup name="ГруппаСрок" id="46">
+							<Group>Horizontal</Group>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="ГруппаСрокРасширеннаяПодсказка" id="47"/>
+							<ChildItems>
+								<InputField name="Срок" id="48">
+									<DataPath>Срок</DataPath>
+									<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Срок инвентаризации</v8:content></v8:item></Title>
+									<ListChoiceMode>true</ListChoiceMode>
+									<Width>30</Width>
+									<ContextMenu name="СрокКонтекстноеМеню" id="49"/>
+									<ExtendedTooltip name="СрокРасширеннаяПодсказка" id="50"/>
+									<Events>
+										<Event name="OnChange">СрокПриИзменении</Event>
+									</Events>
+								</InputField>
+								<CheckBoxField name="ТолькоНевыполненные" id="51">
+									<DataPath>ТолькоНевыполненные</DataPath>
+									<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Показывать только невыполненные</v8:content></v8:item></Title>
+									<TitleLocation>Right</TitleLocation>
+									<ContextMenu name="ТолькоНевыполненныеКонтекстноеМеню" id="52"/>
+									<ExtendedTooltip name="ТолькоНевыполненныеРасширеннаяПодсказка" id="53"/>
+									<Events>
+										<Event name="OnChange">ТолькоНевыполненныеПриИзменении</Event>
+									</Events>
+								</CheckBoxField>
+							</ChildItems>
+						</UsualGroup>
+						<LabelDecoration name="ИтогТекст" id="54">
+							<Title formatted="false"><v8:item><v8:lang>ru</v8:lang><v8:content>Итог</v8:content></v8:item></Title>
+							<ContextMenu name="ИтогТекстКонтекстноеМеню" id="55"/>
+							<ExtendedTooltip name="ИтогТекстРасширеннаяПодсказка" id="56"/>
+						</LabelDecoration>
+						<ProgressBarField name="ПрогрессОбщий" id="57">
+							<DataPath>ПрогрессОбщий</DataPath>
+							<TitleLocation>None</TitleLocation>
+							<Width>70</Width>
+							<MinValue>0</MinValue>
+							<MaxValue>100</MaxValue>
+							<ShowPercent>true</ShowPercent>
+							<ContextMenu name="ПрогрессОбщийКонтекстноеМеню" id="58"/>
+							<ExtendedTooltip name="ПрогрессОбщийРасширеннаяПодсказка" id="59"/>
+						</ProgressBarField>
+						<LabelDecoration name="ПросроченоТекст" id="60">
+							<TextColor>style:NegativeTextColor</TextColor>
+							<Title formatted="false"><v8:item><v8:lang>ru</v8:lang><v8:content>Просрочено</v8:content></v8:item></Title>
+							<ContextMenu name="ПросроченоТекстКонтекстноеМеню" id="61"/>
+							<ExtendedTooltip name="ПросроченоТекстРасширеннаяПодсказка" id="62"/>
+						</LabelDecoration>
+					</ChildItems>
+				</UsualGroup>
+			</ChildItems>
+		</UsualGroup>
+		<Table name="Список" id="3">
+			<ReadOnly>true</ReadOnly>
+			<ChangeRowSet>false</ChangeRowSet>
+			<ChangeRowOrder>true</ChangeRowOrder>
+			<Header>true</Header>
+			<HorizontalLines>true</HorizontalLines>
+			<VerticalLines>true</VerticalLines>
+			<DataPath>Список</DataPath>
+			<ContextMenu name="СписокКонтекстноеМеню" id="4"/>
+			<AutoCommandBar name="СписокКоманднаяПанель" id="5">
+				<Autofill>false</Autofill>
+			</AutoCommandBar>
+			<ExtendedTooltip name="СписокРасширеннаяПодсказка" id="6"/>
+			<SearchStringAddition name="СписокСтрокаПоиска" id="7">
+				<AdditionSource><Item>Список</Item><Type>SearchStringRepresentation</Type></AdditionSource>
+				<ContextMenu name="СписокСтрокаПоискаКонтекстноеМеню" id="8"/>
+				<ExtendedTooltip name="СписокСтрокаПоискаРасширеннаяПодсказка" id="9"/>
+			</SearchStringAddition>
+			<ChildItems>
+				<InputField name="СписокМесто" id="10">
+					<DataPath>Список.Место</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Место хранения</v8:content></v8:item></Title>
+					<Width>50</Width>
+					<ContextMenu name="СписокМестоКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="СписокМестоРасширеннаяПодсказка" id="12"/>
+				</InputField>
+				<InputField name="СписокРодитель" id="30">
+					<DataPath>Список.Родитель</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Входит в</v8:content></v8:item></Title>
+					<Width>30</Width>
+					<ContextMenu name="СписокРодительКонтекстноеМеню" id="31"/>
+					<ExtendedTooltip name="СписокРодительРасширеннаяПодсказка" id="32"/>
+				</InputField>
+				<InputField name="СписокДата" id="13">
+					<DataPath>Список.Дата</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Дата инвентаризации (самого места)</v8:content></v8:item></Title>
+					<Width>30</Width>
+					<ContextMenu name="СписокДатаКонтекстноеМеню" id="14"/>
+					<ExtendedTooltip name="СписокДатаРасширеннаяПодсказка" id="15"/>
+				</InputField>
+				<InputField name="СписокСтарая" id="33">
+					<DataPath>Список.Старая</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Самая старая дата (с вложенными)</v8:content></v8:item></Title>
+					<Width>30</Width>
+					<ContextMenu name="СписокСтараяКонтекстноеМеню" id="34"/>
+					<ExtendedTooltip name="СписокСтараяРасширеннаяПодсказка" id="35"/>
+				</InputField>
+				<InputField name="СписокПолнота" id="36">
+					<DataPath>Список.Полнота</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Проверено мест</v8:content></v8:item></Title>
+					<Width>16</Width>
+					<ContextMenu name="СписокПолнотаКонтекстноеМеню" id="37"/>
+					<ExtendedTooltip name="СписокПолнотаРасширеннаяПодсказка" id="38"/>
+				</InputField>
+				<ProgressBarField name="СписокПроцент" id="39">
+					<DataPath>Список.Процент</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Выполнено за срок</v8:content></v8:item></Title>
+					<Width>20</Width>
+					<MinValue>0</MinValue>
+					<MaxValue>100</MaxValue>
+					<ShowPercent>true</ShowPercent>
+					<ContextMenu name="СписокПроцентКонтекстноеМеню" id="63"/>
+					<ExtendedTooltip name="СписокПроцентРасширеннаяПодсказка" id="64"/>
+				</ProgressBarField>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:ReportObject.ИнвентаризацииПоМестам</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="Срок" id="3">
+			<Type><v8:Type>xs:decimal</v8:Type><v8:NumberQualifiers><v8:Digits>3</v8:Digits><v8:FractionDigits>0</v8:FractionDigits><v8:AllowedSign>Nonnegative</v8:AllowedSign></v8:NumberQualifiers></Type>
+		</Attribute>
+		<Attribute name="ТолькоНевыполненные" id="4">
+			<Type><v8:Type>xs:boolean</v8:Type></Type>
+		</Attribute>
+		<Attribute name="ПрогрессОбщий" id="5">
+			<Type><v8:Type>xs:decimal</v8:Type><v8:NumberQualifiers><v8:Digits>3</v8:Digits><v8:FractionDigits>0</v8:FractionDigits><v8:AllowedSign>Nonnegative</v8:AllowedSign></v8:NumberQualifiers></Type>
+		</Attribute>
+		<Attribute name="Список" id="2">
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="Место" id="1">
+					<Type>
+						<v8:Type>cfg:CatalogRef.МестаХранения</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Родитель" id="3">
+					<Type>
+						<v8:Type>cfg:CatalogRef.МестаХранения</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Старая" id="4">
+					<Type>
+						<v8:Type>xs:dateTime</v8:Type>
+						<v8:DateQualifiers>
+							<v8:DateFractions>Date</v8:DateFractions>
+						</v8:DateQualifiers>
+					</Type>
+				</Column>
+				<Column name="Всего" id="5">
+					<Type>
+						<v8:Type>xs:decimal</v8:Type>
+						<v8:NumberQualifiers>
+							<v8:Digits>10</v8:Digits>
+							<v8:FractionDigits>0</v8:FractionDigits>
+							<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+						</v8:NumberQualifiers>
+					</Type>
+				</Column>
+				<Column name="Проверено" id="6">
+					<Type>
+						<v8:Type>xs:decimal</v8:Type>
+						<v8:NumberQualifiers>
+							<v8:Digits>10</v8:Digits>
+							<v8:FractionDigits>0</v8:FractionDigits>
+							<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+						</v8:NumberQualifiers>
+					</Type>
+				</Column>
+				<Column name="Полнота" id="7">
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>20</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Процент" id="8">
+					<Type><v8:Type>xs:decimal</v8:Type><v8:NumberQualifiers><v8:Digits>3</v8:Digits><v8:FractionDigits>0</v8:FractionDigits><v8:AllowedSign>Nonnegative</v8:AllowedSign></v8:NumberQualifiers></Type>
+				</Column>
+				<Column name="Дата" id="2">
+					<Type>
+						<v8:Type>xs:dateTime</v8:Type>
+						<v8:DateQualifiers>
+							<v8:DateFractions>Date</v8:DateFractions>
+						</v8:DateQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Сформировать" id="1">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Обновить</v8:content></v8:item></Title>
+			<Action>Сформировать</Action>
+		</Command>
+		<Command name="СортМесто" id="2">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>По месту хранения</v8:content></v8:item></Title>
+			<Action>СортМесто</Action>
+		</Command>
+		<Command name="СортСтарая" id="5">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>По самой старой дате</v8:content></v8:item></Title>
+			<Action>СортСтарая</Action>
+		</Command>
+		<Command name="СортДатаСтарые" id="3">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>По дате: сначала давние</v8:content></v8:item></Title>
+			<Action>СортДатаСтарые</Action>
+		</Command>
+		<Command name="СортДатаНовые" id="4">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>По дате: сначала свежие</v8:content></v8:item></Title>
+			<Action>СортДатаНовые</Action>
+		</Command>
+	</Commands>
+</Form>

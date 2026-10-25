@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">
+	<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Пропавшие при инвентаризации (не найдены на месте / списаны по инвентаризации)</v8:content></v8:item></Title>
+	<AutoTitle>false</AutoTitle>
+	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
+	</Events>
+	<ChildItems>
+		<Button name="Сформировать" id="1">
+			<Type>UsualButton</Type>
+			<CommandName>Form.Command.Сформировать</CommandName>
+			<ExtendedTooltip name="СформироватьРасширеннаяПодсказка" id="2"/>
+		</Button>
+		<Button name="ПодтвердитьПропажу" id="31">
+			<Type>UsualButton</Type>
+			<CommandName>Form.Command.ПодтвердитьПропажу</CommandName>
+			<ExtendedTooltip name="ПодтвердитьПропажуРасширеннаяПодсказка" id="32"/>
+		</Button>
+		<Table name="Список" id="3">
+			<ReadOnly>true</ReadOnly>
+			<ChangeRowSet>false</ChangeRowSet>
+			<ChangeRowOrder>true</ChangeRowOrder>
+			<Header>true</Header>
+			<HorizontalLines>true</HorizontalLines>
+			<VerticalLines>true</VerticalLines>
+			<DataPath>Список</DataPath>
+			<ContextMenu name="СписокКонтекстноеМеню" id="4"/>
+			<AutoCommandBar name="СписокКоманднаяПанель" id="5">
+				<Autofill>false</Autofill>
+			</AutoCommandBar>
+			<ExtendedTooltip name="СписокРасширеннаяПодсказка" id="6"/>
+			<SearchStringAddition name="СписокСтрокаПоиска" id="7">
+				<AdditionSource><Item>Список</Item><Type>SearchStringRepresentation</Type></AdditionSource>
+				<ContextMenu name="СписокСтрокаПоискаКонтекстноеМеню" id="8"/>
+				<ExtendedTooltip name="СписокСтрокаПоискаРасширеннаяПодсказка" id="9"/>
+			</SearchStringAddition>
+			<ChildItems>
+				<InputField name="СписокНоменклатура" id="10">
+					<DataPath>Список.Номенклатура</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Номенклатура</v8:content></v8:item></Title>
+					<Width>40</Width>
+					<ContextMenu name="СписокНоменклатураКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="СписокНоменклатураРасширеннаяПодсказка" id="12"/>
+				</InputField>
+				<InputField name="СписокСерийный" id="13">
+					<DataPath>Список.Серийный</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Серийный номер</v8:content></v8:item></Title>
+					<Width>20</Width>
+					<ContextMenu name="СписокСерийныйКонтекстноеМеню" id="14"/>
+					<ExtendedTooltip name="СписокСерийныйРасширеннаяПодсказка" id="15"/>
+				</InputField>
+				<InputField name="СписокИнвентарный" id="16">
+					<DataPath>Список.Инвентарный</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Инв. номер</v8:content></v8:item></Title>
+					<Width>14</Width>
+					<ContextMenu name="СписокИнвентарныйКонтекстноеМеню" id="17"/>
+					<ExtendedTooltip name="СписокИнвентарныйРасширеннаяПодсказка" id="18"/>
+				</InputField>
+				<InputField name="СписокМесто" id="19">
+					<DataPath>Список.Место</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Место (где числилась)</v8:content></v8:item></Title>
+					<Width>36</Width>
+					<ContextMenu name="СписокМестоКонтекстноеМеню" id="20"/>
+					<ExtendedTooltip name="СписокМестоРасширеннаяПодсказка" id="21"/>
+				</InputField>
+				<InputField name="СписокДата" id="22">
+					<DataPath>Список.Дата</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Дата документа</v8:content></v8:item></Title>
+					<Width>16</Width>
+					<ContextMenu name="СписокДатаКонтекстноеМеню" id="23"/>
+					<ExtendedTooltip name="СписокДатаРасширеннаяПодсказка" id="24"/>
+				</InputField>
+				<InputField name="СписокСтатус" id="28">
+					<DataPath>Список.Статус</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Статус</v8:content></v8:item></Title>
+					<Width>34</Width>
+					<ContextMenu name="СписокСтатусКонтекстноеМеню" id="29"/>
+					<ExtendedTooltip name="СписокСтатусРасширеннаяПодсказка" id="30"/>
+				</InputField>
+				<InputField name="СписокДокумент" id="25">
+					<DataPath>Список.Документ</DataPath>
+					<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Документ</v8:content></v8:item></Title>
+					<Width>30</Width>
+					<ContextMenu name="СписокДокументКонтекстноеМеню" id="26"/>
+					<ExtendedTooltip name="СписокДокументРасширеннаяПодсказка" id="27"/>
+				</InputField>
+			</ChildItems>
+		</Table>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:ReportObject.НеНайденоПриИнвентаризации</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="Список" id="2">
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="Карточка" id="1">
+					<Type>
+						<v8:Type>cfg:CatalogRef.КарточкиНоменклатуры</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Номенклатура" id="2">
+					<Type>
+						<v8:Type>xs:string</v8:Type><v8:StringQualifiers><v8:Length>0</v8:Length><v8:AllowedLength>Variable</v8:AllowedLength></v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Серийный" id="3">
+					<Type>
+						<v8:Type>xs:string</v8:Type><v8:StringQualifiers><v8:Length>0</v8:Length><v8:AllowedLength>Variable</v8:AllowedLength></v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Инвентарный" id="4">
+					<Type>
+						<v8:Type>xs:string</v8:Type><v8:StringQualifiers><v8:Length>0</v8:Length><v8:AllowedLength>Variable</v8:AllowedLength></v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Место" id="5">
+					<Type>
+						<v8:Type>cfg:CatalogRef.МестаХранения</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Дата" id="6">
+					<Type>
+						<v8:Type>xs:dateTime</v8:Type><v8:DateQualifiers><v8:DateFractions>Date</v8:DateFractions></v8:DateQualifiers>
+					</Type>
+				</Column>
+				<Column name="Документ" id="7">
+					<Type>
+						<v8:Type>cfg:DocumentRef.Инвентаризация</v8:Type><v8:Type>cfg:DocumentRef.Списание</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Статус" id="8">
+					<Type>
+						<v8:Type>xs:string</v8:Type><v8:StringQualifiers><v8:Length>0</v8:Length><v8:AllowedLength>Variable</v8:AllowedLength></v8:StringQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Сформировать" id="1">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Обновить</v8:content></v8:item></Title>
+			<Action>Сформировать</Action>
+		</Command>
+		<Command name="ПодтвердитьПропажу" id="2">
+			<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Подтвердить пропажу (убрать из списка)</v8:content></v8:item></Title>
+			<ToolTip><v8:item><v8:lang>ru</v8:lang><v8:content>Предмет окончательно признан пропавшим и больше не показывается. Если его найдут и он снова пропадет, вернется в список.</v8:content></v8:item></ToolTip>
+			<Action>ПодтвердитьПропажу</Action>
+		</Command>
+	</Commands>
+</Form>

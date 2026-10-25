@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Склад">
+<title>Склад</title>
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--tx:#1b2330;--mut:#6b7686;--ac:#1565c0;--ok:#2e7d32;--er:#c62828;--wn:#e65100;--bd:#d8dee8;--okbg:#e3f3e4;--wnbg:#ffe9d6}
+@media (prefers-color-scheme:dark){:root{--bg:#10151c;--card:#1a222d;--tx:#e8edf4;--mut:#93a0b2;--ac:#64a8ff;--ok:#66bb6a;--er:#ef5350;--wn:#ffa040;--bd:#2c3846;--okbg:#17321a;--wnbg:#3b2610}}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:20px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-user-select:none;user-select:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+button,select,.pl,.chip{touch-action:manipulation}
+input{-webkit-user-select:text;user-select:text;border-radius:10px}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;padding:12px;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));gap:10px}
+.bar{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 14px;min-width:0}
+.box label{display:block;color:var(--mut);font-size:14px;margin-bottom:2px}
+select,button,input{font:inherit;color:inherit}
+select{width:100%;border:0;background:transparent;font-size:22px;font-weight:600;padding:4px 0}
+#modes{display:flex;gap:0;border:2px solid var(--ac);border-radius:14px;overflow:hidden;flex:0 0 auto}
+#modes button{border:0;background:transparent;padding:10px 22px;font-size:22px;font-weight:700;cursor:pointer;color:var(--ac)}
+#modes button.on{background:var(--ac);color:#fff}
+#techBox{flex:1 1 240px}
+.pick{flex:2 1 340px;cursor:pointer;border:2px solid var(--ac)}
+.pick .v{font-size:22px;font-weight:600;min-height:32px}
+#scanBox{flex:1 1 100%;display:flex;align-items:center;gap:12px}
+#scan{flex:1;border:2px dashed var(--bd);border-radius:10px;background:transparent;padding:10px 14px;font-size:22px;outline:none}
+#scan:focus{border-color:var(--ac)}
+#scan{min-width:0}
+.ib{flex:0 0 auto;width:54px;height:54px;border:2px solid var(--ac);border-radius:12px;background:transparent;color:var(--ac);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.ib svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ib:active,.ib.on{background:var(--ac);color:#fff}
+.fl{display:flex;gap:8px;align-items:center}
+.fl input[type=text]{flex:1;min-width:0}
+#msg{min-height:30px;font-size:20px;font-weight:600}
+.ok{color:var(--ok)}.er{color:var(--er)}
+.list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 14px}
+.row.found{background:var(--okbg);border-color:var(--ok)}
+.row.extra{background:var(--wnbg);border-color:var(--wn)}
+.row .t{flex:1;min-width:0}.row .n{font-weight:600;font-size:21px}.row .s{color:var(--mut);font-size:16px}
+.x{border:0;background:transparent;color:var(--er);font-size:32px;padding:0 10px;cursor:pointer}
+.empty{color:var(--mut);text-align:center;margin-top:30px;font-size:22px}
+.big{width:100%;border:0;border-radius:14px;background:var(--ok);color:#fff;font-size:26px;font-weight:700;padding:18px;cursor:pointer}
+.big:disabled{background:var(--bd);color:var(--mut);cursor:default}
+.big.sec{background:transparent;color:var(--tx);border:2px solid var(--bd)}
+.recent{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.chip{border:1px solid var(--ac);color:var(--ac);border-radius:20px;padding:4px 12px;font-size:16px;cursor:pointer;background:transparent}
+.step{display:flex;align-items:center;gap:6px}
+.step button{border:1px solid var(--bd);background:var(--card);border-radius:10px;width:46px;height:46px;font-size:26px;cursor:pointer}
+.step .q{min-width:90px;text-align:center;font-weight:700;font-size:22px}
+.stats{display:flex;gap:16px;flex-wrap:wrap;font-size:18px;font-weight:600}
+.stats span.g{color:var(--ok)}.stats span.o{color:var(--wn)}.stats span.m{color:var(--mut)}
+#ov,#cf{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px}
+.pane{background:var(--card);border-radius:16px;width:min(760px,100%);max-height:100%;display:flex;flex-direction:column;padding:14px;gap:10px}
+#q{border:2px solid var(--ac);border-radius:10px;background:transparent;padding:10px 14px;font-size:22px;outline:none}
+#plist{overflow:auto;display:flex;flex-direction:column;gap:6px}
+.pl{padding:12px 14px;border:1px solid var(--bd);border-radius:10px;font-size:21px;cursor:pointer}
+.pl:active{background:var(--ac);color:#fff}
+.cl{align-self:flex-end;border:1px solid var(--bd);border-radius:10px;background:transparent;padding:8px 18px;cursor:pointer}
+.chk{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:600;cursor:pointer}
+.box label.chk{font-size:20px;color:var(--tx);margin:0;display:flex}
+.chk input{width:26px;height:26px}
+.btns{display:flex;gap:12px}
+.btns .big{flex:1}
+.hide{display:none!important}
+.prn{border:2px solid var(--ac);background:transparent;color:var(--ac);border-radius:10px;padding:8px 12px;font-size:16px;font-weight:600;cursor:pointer;white-space:nowrap}
+#addPane{flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px}
+#addPane input[type=text]{width:100%;border:2px solid var(--ac);border-radius:10px;background:transparent;padding:10px 14px;font-size:22px;outline:none;-webkit-user-select:text;user-select:text}
+#addPane .box .v{font-size:22px;font-weight:600;min-height:30px}
+.bc{font:700 34px/1.2 ui-monospace,Consolas,monospace;letter-spacing:2px;text-align:center;padding:8px 0}
+.hint{color:var(--mut);font-size:16px}
+.sel{border:2px solid var(--ok)}
+#cam,#ch{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:12px}
+#camView{width:100%;min-height:200px;background:#000;border-radius:12px;overflow:hidden}
+#camView video{width:100%!important;height:auto!important;display:block}
+#camMsg{font-weight:600;min-height:28px;text-align:center}
+#prnBad{align-self:flex-start}
+.mut{color:var(--mut);font-size:15px}
+@media (max-width:760px){
+ html,body{font-size:17px}
+ #app{padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right));gap:8px}
+ .bar{gap:8px}
+ #modes{width:100%}
+ #modes button{flex:1 1 0;min-width:0;padding:10px 2px;font-size:clamp(11px,3.3vw,16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #app{overflow-y:auto;overflow-x:hidden}
+ .list{flex:1 0 auto;min-height:140px;overflow:visible}
+ #go,#invBtns{position:sticky;bottom:0;background:var(--bg);padding-top:6px;z-index:2}
+ #lostBox{flex:0 0 auto}
+ #techBox,.pick,#prBox,#scanBox{flex:1 1 100%}
+ .box{padding:8px 12px}
+ .box label{font-size:13px}
+ select{font-size:19px}
+ .pick .v,#addPane .box .v{font-size:19px;min-height:26px}
+ #scanBox{gap:8px}
+ #scanBox>label{display:none}
+ #scan{font-size:18px;padding:10px 12px}
+ .ib{width:48px;height:48px}
+ #msg{font-size:17px;min-height:24px}
+ .row{flex-wrap:wrap;padding:8px 12px;gap:8px}
+ .row .n{font-size:18px}.row .s{font-size:14px}
+ .row .t{flex:1 1 60%}
+ .x{font-size:30px}
+ .big{font-size:21px;padding:14px}
+ .btns .big{font-size:18px;padding:12px 6px}
+ .btns{gap:8px}
+ .stats{font-size:15px;gap:10px}
+ .bc{font-size:24px;letter-spacing:1px}
+ .step button{width:42px;height:42px}
+ .step .q{min-width:60px;font-size:20px}
+ .pl{font-size:18px;padding:11px 12px}
+ #q,#addPane input[type=text]{font-size:18px}
+ .chk{font-size:17px}
+ .chk input{width:24px;height:24px}
+ .prn{font-size:15px;padding:7px 10px}
+ .empty{font-size:18px}
+}
+@media (max-height:480px){
+ #app{gap:6px}.box{padding:6px 10px}.big{padding:10px;font-size:20px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+ <div class="bar">
+  <div id="modes"><button id="mMove" class="on">Перемещение</button><button id="mInv">Инвентаризация</button><button id="mAdd">Добавление</button></div>
+  <div class="box" id="techBox"><label>Техник</label><select id="tech"></select></div>
+  <div class="box pick" id="destBox"><label>Куда переместить (нажмите, чтобы выбрать)</label><div class="v" id="destName">не выбрано</div><div class="recent" id="recent"></div></div>
+  <div class="box pick hide" id="invBox"><label>Место хранения (нажмите, чтобы выбрать)</label><div class="v" id="invName">не выбрано</div></div>
+  <div class="box hide" id="chBox" style="display:flex;align-items:center"><label class="chk"><input type="checkbox" id="children">с подчинёнными</label></div>
+  <div class="box hide" id="prBox"><label>Принтер этикеток</label><select id="printer"></select></div>
+  <div class="box hide" id="fmBox"><label>Этикетка</label><select id="pfmt"><option value="bar">Штрихкод</option><option value="qr">QR-код</option></select></div>
+ <div class="box" id="scanBox"><label style="margin:0;white-space:nowrap">Сканер</label><input id="scan" inputmode="none" enterkeyhint="done" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="штрихкод / серийный №"><button class="ib" id="camBtn" title="Сканировать камерой" aria-label="Камера"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h7l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg></button><button class="ib" id="kbBtn" title="Ввести вручную" aria-label="Клавиатура"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M9.5 10h.01M13 10h.01M16.5 10h.01M6 13.5h.01M18 13.5h.01M9 14h6"/></svg></button></div>
+ </div>
+ <div id="msg"></div>
+ <button id="prnBad" class="prn hide">Печать штрихкода этой карточки</button>
+ <div class="stats hide" id="stats"></div>
+ <div class="list" id="list"></div>
+ <div id="addPane" class="hide">
+  <div id="aS1">
+   <div class="box"><label>Номенклатура: введите любой текст из названия</label><input type="text" id="aq" autocomplete="off" placeholder="например: logitech k120"></div>
+   <div id="alist" class="list" style="margin-top:8px"></div>
+  </div>
+  <div id="aS2" class="hide">
+   <div class="box sel"><label>Номенклатура</label><div class="v" id="aItem"></div></div>
+   <div id="aWarn" class="er" style="font-weight:600"></div>
+   <div class="btns"><button class="big sec" id="aOther">Выбрать другую</button><button class="big" id="aCreate">Создать карточку</button></div>
+  </div>
+  <div id="aS3" class="hide">
+   <div class="box sel"><label>Новая карточка</label><div class="v" id="aItem2"></div></div>
+   <div class="box"><label>Серийный номер (введите или отсканируйте)</label><div class="fl"><input type="text" id="aserial" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="серийный номер"><button class="ib" id="aCam" title="Сканировать камерой" aria-label="Камера"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h2.2l1.3-2h7l1.3 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.6"/></svg></button><button class="ib" id="aKb" title="Ввести вручную" aria-label="Клавиатура"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M9.5 10h.01M13 10h.01M16.5 10h.01M6 13.5h.01M18 13.5h.01M9 14h6"/></svg></button></div></div>
+   <div class="box pick" id="aPlaceBox"><label>Место хранения (нажмите, чтобы выбрать)</label><div class="v" id="aPlace">не выбрано</div></div>
+   <div class="hint">Штрихкод присвоится автоматически при сохранении. Будет создана карточка и проведён документ «Ввод остатков» на выбранное место.</div>
+   <div class="box"><label class="chk"><input type="checkbox" id="autoPrint">печатать штрихкод сразу после сохранения</label></div>
+   <div class="btns"><button class="big sec" id="aBack">Назад</button><button class="big" id="aSave" disabled>Сохранить</button></div>
+  </div>
+  <div id="aS4" class="hide">
+   <div class="box sel"><label>Готово</label><div class="v" id="aDone"></div><div class="bc" id="aBc"></div></div>
+   <button class="big" id="aPrint">Распечатать штрихкод</button>
+   <div class="btns"><button class="big sec" id="aSame">Ещё такой же</button><button class="big sec" id="aNew">Другая номенклатура</button></div>
+  </div>
+ </div>
+ <button id="go" class="big" disabled>Переместить</button>
+ <div class="box hide" id="lostBox" style="display:flex;align-items:center"><label class="chk"><input type="checkbox" id="lostChk">Недостающие переместить на «Потеряшки»</label></div>
+ <div class="btns hide" id="invBtns"><button id="clr" class="big sec">Очистить</button><button id="save" class="big" disabled>Сохранить инвентаризацию</button></div>
+</div>
+<div id="ov"><div class="pane"><input id="q" placeholder="поиск места хранения" autocomplete="off"><div id="plist"></div><button class="cl" id="cl">Закрыть</button></div></div>
+<div id="cf"><div class="pane"><div id="cfText" style="font-size:21px"></div><div class="btns"><button class="big sec" id="cfNo">Отмена</button><button class="big" id="cfYes">Да</button></div></div></div>
+<div id="cam"><div class="pane"><div id="camView"></div><div id="camMsg"></div><div class="btns"><button class="big sec" id="camPhoto">Снимок</button><button class="big" id="camClose">Готово</button></div></div></div>
+<input type="file" id="camFile" accept="image/*" capture="environment" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0" tabindex="-1">
+<div id="ch"><div class="pane"><div id="chTitle" style="font-size:20px;font-weight:600"></div><div id="chList" style="overflow:auto;display:flex;flex-direction:column;gap:6px"></div><button class="cl" id="chNo">Отмена</button></div></div>
+<script>
+var S={techs:[],places:[],printers:[],items:[],dest:null,mode:'move',pickCb:null,confirmCb:null};
+var A={item:null,stage:1,place:null,res:null,timer:null,seq:0};
+var I={place:null,children:false,rows:[],loaded:false};
+var $=function(i){return document.getElementById(i)};
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var actx=null;
+function beep(ok){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();var o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.frequency.value=ok?880:200;g.gain.value=0.15;o.start();o.stop(actx.currentTime+(ok?0.12:0.4))}catch(e){}}
+function say(t,ok){var m=$('msg');m.textContent=t||'';m.className=ok===true?'ok':(ok===false?'er':'');if($('cam').style.display==='flex'){var c=$('camMsg');c.textContent=t||'';c.className=ok===true?'ok':(ok===false?'er':'')}}
+function api(act,body){
+ var opt=body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{method:'GET'};
+ return fetch('api/'+act,opt).then(function(r){return r.text().then(function(t){try{return JSON.parse(t)}catch(e){throw new Error('Ответ сервера: '+r.status+' '+t.slice(0,120))}})});
+}
+function overlayOpen(){return $('ov').style.display==='flex'||$('cf').style.display==='flex'||$('cam').style.display==='flex'||$('ch').style.display==='flex'}
+function focusScan(){if(S.mode==='add')return;var a=document.activeElement;if(a&&a.tagName==='SELECT')return;if(!overlayOpen()){$('scan').focus()}}
+function ask(text,cb){$('cfText').textContent=text;S.confirmCb=cb;$('cf').style.display='flex'}
+$('cfNo').onclick=function(){$('cf').style.display='none';S.confirmCb=null;focusScan()};
+$('cfYes').onclick=function(){$('cf').style.display='none';var f=S.confirmCb;S.confirmCb=null;if(f)f();focusScan()};
+
+/* ---------- режим ---------- */
+function setMode(m){
+ S.mode=m;lsSet('mode',m);
+ var inv=(m==='inv'),add=(m==='add'),mv=(m==='move');
+ $('mMove').className=mv?'on':'';$('mInv').className=inv?'on':'';$('mAdd').className=add?'on':'';
+ $('destBox').className='box pick'+(mv?'':' hide');
+ $('invBox').className='box pick'+(inv?'':' hide');
+ $('chBox').className='box'+(inv?'':' hide');$('chBox').style.display=inv?'flex':'none';
+ $('lostBox').className='box'+(inv?'':' hide');$('lostBox').style.display=inv?'flex':'none';
+ $('scanBox').className='box'+(add?' hide':'');
+ $('prBox').className='box'+(S.printers.length?'':' hide');
+ $('fmBox').className='box'+(S.printers.length&&inv?'':' hide');
+ $('go').className='big'+(mv?'':' hide');
+ $('invBtns').className='btns'+(inv?'':' hide');
+ $('stats').className='stats'+(inv?'':' hide');
+ $('list').className='list'+(add?' hide':'');
+ $('addPane').className=add?'':'hide';
+ say('');$('prnBad').className='prn hide';render();focusScan();
+}
+$('mMove').onclick=function(){if(S.mode!=='move')setMode('move')};
+$('mInv').onclick=function(){if(S.mode!=='inv')setMode('inv')};
+$('mAdd').onclick=function(){if(S.mode!=='add')setMode('add')};
+
+/* ---------- выбор места ---------- */
+function drawPlaces(){
+ var q=$('q').value.trim().toLowerCase(),box=$('plist');box.innerHTML='';
+ for(var i=0;i<S.places.length;i++){var p=S.places[i];if(q&&p.name.toLowerCase().indexOf(q)<0)continue;
+  var d=document.createElement('div');d.className='pl';d.textContent=p.name;(function(pp){d.onclick=function(){$('ov').style.display='none';var f=S.pickCb;S.pickCb=null;if(f)f(pp);focusScan()}})(p);box.appendChild(d)}
+}
+function pickPlace(cb){S.pickCb=cb;$('ov').style.display='flex';$('q').value='';drawPlaces();$('q').focus()}
+$('q').oninput=drawPlaces;
+$('cl').onclick=function(){$('ov').style.display='none';S.pickCb=null;focusScan()};
+$('tech').onchange=function(){lsSet('tech',$('tech').value);render();$('tech').blur();focusScan()};
+$('tech').onblur=function(){setTimeout(focusScan,100)};
+
+/* ---------- перемещение ---------- */
+function setDest(p){S.dest=p;var r=(lsGet('recent')||[]).filter(function(x){return x.id!==p.id});r.unshift(p);lsSet('recent',r.slice(0,6));render()}
+$('destBox').onclick=function(){pickPlace(setDest)};
+function renderMove(){
+ var l=$('list');l.innerHTML='';
+ if(!S.items.length){l.innerHTML='<div class="empty">Отсканируйте штрихкод оборудования</div>'}
+ S.items.forEach(function(it,i){
+  var d=document.createElement('div');d.className='row';
+  d.innerHTML='<div class="t"><div class="n"></div><div class="s"></div></div><button class="prn">Печать штрихкода</button><button class="x">×</button>';
+  d.querySelector('.prn').onclick=function(e){e.stopPropagation();printCard(it.id,it.name)};
+  d.querySelector('.n').textContent=it.name;
+  d.querySelector('.s').textContent=[it.inv?('инв. '+it.inv):'',it.serial?('с/н '+it.serial):'','сейчас: '+it.place].filter(Boolean).join('  ·  ');
+  d.querySelector('.x').onclick=function(){S.items.splice(i,1);render();focusScan()};
+  l.appendChild(d);
+ });
+ $('destName').textContent=S.dest?S.dest.name:'не выбрано';
+ var b=$('go');b.disabled=!(S.items.length&&S.dest&&$('tech').value);
+ b.textContent=S.items.length?('Переместить ('+S.items.length+')'):'Переместить';
+ var rc=$('recent');rc.innerHTML='';
+ (lsGet('recent')||[]).forEach(function(p){var c=document.createElement('button');c.className='chip';c.textContent=p.name;c.onclick=function(e){e.stopPropagation();setDest(p)};rc.appendChild(c)});
+}
+$('go').onclick=function(){
+ var b=$('go');b.disabled=true;say('Выполняется…');
+ api('move',{tech:$('tech').value,dest:S.dest.id,cards:S.items.map(function(x){return x.id})}).then(function(r){
+  if(r.ok){beep(true);say('Готово: '+r.text,true);S.items=[];render()}
+  else{beep(false);say(r.error,false);render()}
+ }).catch(function(er){beep(false);say(er.message,false);render()}).then(focusScan);
+};
+function scanMove(code,cardId){
+ $('prnBad').className='prn hide';
+ if(!cardId&&S.items.some(function(x){return x.code===code})){beep(false);say('Уже в списке',false);return}
+ api('scan',cardId?{card:cardId}:{barcode:code}).then(function(r){
+  if(r.multi){beep(false);chooser(r.error,r.list,function(c){scanMove(null,c.id)});return}
+  if(!r.ok){beep(false);say(r.error,false);if(r.cardId){S.bad={id:r.cardId,name:r.cardName};$('prnBad').className='prn'}return}
+  if(S.items.some(function(x){return x.id===r.id})){beep(false);say('Уже в списке: '+r.name,false);return}
+  r.code=code||r.id;S.items.push(r);beep(true);say('Добавлено: '+r.name,true);render();
+ }).catch(function(er){beep(false);say(er.message,false)});
+}
+$('prnBad').onclick=function(){if(S.bad)printCard(S.bad.id,S.bad.name)};
+function chooser(title,list,cb){
+ $('chTitle').textContent=title+'. Выберите нужную:';var box=$('chList');box.innerHTML='';
+ list.forEach(function(c){var d=document.createElement('div');d.className='pl';
+  d.innerHTML='<div class="n"></div><div class="mut"></div>';
+  d.querySelector('.n').textContent=c.name;
+  d.querySelector('.mut').textContent=[c.inv?('инв. '+c.inv):'',c.serial?('с/н '+c.serial):'','сейчас: '+c.place].filter(Boolean).join('  ·  ');
+  d.onclick=function(){$('ch').style.display='none';cb(c);focusScan()};box.appendChild(d)});
+ $('ch').style.display='flex';
+}
+$('chNo').onclick=function(){$('ch').style.display='none';focusScan()};
+
+/* ---------- инвентаризация ---------- */
+function invSave(){lsSet('inv',I)}
+function stats(){
+ var tot=0,fnd=0,miss=0,ext=0,cnt=0,itemsTot=0,itemsDone=0;
+ I.rows.forEach(function(r){
+  if(r.extra){ext++;return}
+  if(r.kind==='card'){tot++;if(r.fact)fnd++;else miss++}
+  else{itemsTot++;if(r.fact!==null&&r.fact!==undefined)itemsDone++}
+ });
+ return {cards:tot,found:fnd,miss:miss,extra:ext,itemsTot:itemsTot,itemsDone:itemsDone};
+}
+function renderInv(){
+ var l=$('list');l.innerHTML='';
+ $('invName').textContent=I.place?I.place.name:'не выбрано';
+ $('children').checked=!!I.children;
+ var st=stats();
+ $('stats').innerHTML='<span>Карточек: '+st.cards+'</span><span class="g">Найдено: '+st.found+'</span><span class="m">Не найдено: '+st.miss+'</span><span class="o">Лишних: '+st.extra+'</span>'+(st.itemsTot?'<span class="m">Без карточек: '+st.itemsDone+' из '+st.itemsTot+'</span>':'');
+ $('save').disabled=!(I.place&&I.loaded&&$('tech').value);
+ if(!I.place){l.innerHTML='<div class="empty">Выберите место хранения для инвентаризации</div>';return}
+ if(!I.rows.length){l.innerHTML='<div class="empty">'+(I.loaded?'На этом месте по учёту ничего нет. Если место пустое — нажмите «Сохранить инвентаризацию».':'Загрузка…')+'</div>';return}
+ I.rows.forEach(function(r,i){
+  var d=document.createElement('div');
+  var done=(r.kind==='card')?!!r.fact:(r.fact!==null&&r.fact!==undefined);
+  var cls='row';
+  if(r.extra)cls+=' extra';
+  else if(r.kind==='card'&&r.fact)cls+=' found';
+  else if(r.kind==='item'&&done)cls+=(r.fact===r.qty?' found':' extra');
+  d.className=cls;
+  if(r.kit&&!r.extra)d.style.marginLeft=(18*Math.min(r.depth||1,4))+'px';
+  var sub=[];
+  if(r.inv)sub.push('инв. '+r.inv);if(r.serial)sub.push('с/н '+r.serial);
+  if(r.extra)sub.push(r.note||'лишнее');else if(I.children&&r.place)sub.push(r.place);
+  if(r.kit&&!r.extra)sub.push('в комплекте: '+r.kitName);
+  if(r.kind==='item'&&!r.extra)sub.push('по учёту: '+r.qty+' '+(r.unit||''));
+  d.innerHTML='<div class="t"><div class="n"></div><div class="s"></div></div>';
+  d.querySelector('.n').textContent=r.name;d.querySelector('.s').textContent=sub.join('  ·  ');
+  if(r.kind==='item'){
+   var st2=document.createElement('div');st2.className='step';
+   st2.innerHTML='<button>−</button><div class="q"></div><button>+</button><button title="равно учёту">=</button>';
+   var b=st2.querySelectorAll('button'),q=st2.querySelector('.q');
+   q.textContent=(r.fact===null||r.fact===undefined)?'—':r.fact;
+   b[0].onclick=function(e){e.stopPropagation();r.fact=Math.max(0,(r.fact||0)-1);invSave();renderInv()};
+   b[1].onclick=function(e){e.stopPropagation();r.fact=(r.fact||0)+1;invSave();renderInv()};
+   b[2].onclick=function(e){e.stopPropagation();r.fact=r.qty;invSave();renderInv()};
+   d.appendChild(st2);
+  }
+  if(r.kind==='card'){var pb=document.createElement('button');pb.className='prn';pb.textContent='Печать штрихкода';(function(rr){pb.onclick=function(e){e.stopPropagation();printCard(rr.id,rr.name)}})(r);d.appendChild(pb)}
+  if(r.extra){var x=document.createElement('button');x.className='x';x.textContent='×';x.onclick=function(){I.rows.splice(i,1);invSave();renderInv();focusScan()};d.appendChild(x)}
+  l.appendChild(d);
+ });
+}
+function groupKits(rows){
+ var by={},ids={},out=[],seen={};
+ rows.forEach(function(r){if(r.kit)(by[r.kit]=by[r.kit]||[]).push(r)});
+ rows.forEach(function(r){if(r.kind==='card'&&by[r.id])ids[r.id]=1});
+ function put(r,d){
+  if(seen[r.key])return;seen[r.key]=1;r.depth=d;out.push(r);
+  if(r.kind==='card'&&by[r.id]&&d<10)by[r.id].forEach(function(c){put(c,d+1)});
+ }
+ rows.forEach(function(r){if(!(r.kit&&ids[r.kit]))put(r,0)});
+ rows.forEach(function(r){put(r,0)});
+ return out;
+}
+function kitMembers(id,acc,d){
+ if(d>10)return acc;
+ I.rows.forEach(function(x){if(!x.extra&&x.kit===id&&acc.indexOf(x)<0){acc.push(x);if(x.kind==='card')kitMembers(x.id,acc,d+1)}});
+ return acc;
+}
+function loadInv(keep,after){
+ if(!I.place)return;
+ var old={},extras=[];
+ if(keep){I.rows.forEach(function(x){if(x.extra)extras.push(x);else old[x.key]=x.fact})}
+ I.rows=[];I.loaded=false;renderInv();say('Загрузка остатков…');
+ var dg=(location.hash.match(/^#diag=(.+)$/)||[])[1];
+ api('iload',{place:I.place.id,children:I.children,diag:dg?decodeURIComponent(dg):''}).then(function(r){
+  if(!r.ok){say(r.error,false);return}
+  if(r.dbg){var ta=document.getElementById('dbgBox');if(!ta){ta=document.createElement('textarea');ta.id='dbgBox';ta.readOnly=true;ta.style.cssText='position:fixed;left:0;right:0;top:0;height:55%;z-index:99;background:#000;color:#0f0;font:12px monospace;padding:8px';ta.onclick=function(){ta.style.display='none'};document.body.appendChild(ta)}ta.value=r.dbg+'\n(нажмите на текст, чтобы закрыть)';ta.style.display='block'}
+  I.rows=r.rows.map(function(x){x.fact=null;if(x.kind==='card')x.fact=0;if(keep&&old[x.key]!==undefined&&old[x.key]!==null)x.fact=old[x.key];return x});
+  I.rows=groupKits(I.rows);
+  if(keep)I.rows=extras.concat(I.rows);
+  I.loaded=true;invSave();say('Загружено позиций: '+I.rows.length+' (в комплектах: '+I.rows.filter(function(x){return x.kit}).length+') · v19',true);renderInv();
+  if(after)after();
+ }).catch(function(er){say(er.message,false)});
+}
+$('invBox').onclick=function(){pickPlace(function(p){I.place=p;loadInv()})};
+$('children').onchange=function(){
+ var f=function(){I.children=$('children').checked;if(I.place)loadInv();else renderInv()};
+ var had=I.rows.some(function(r){return r.fact||r.extra});
+ if(had){ask('Список будет загружен заново, отсканированное сбросится. Продолжить?',f);$('children').checked=I.children}else f();
+};
+function scanInv(code,cardId){
+ if(!I.place||!I.loaded){beep(false);say('Сначала выберите место хранения',false);return}
+ api('iscan',cardId?{card:cardId,place:I.place.id}:{barcode:code,place:I.place.id}).then(function(r){
+  if(r.multi){beep(false);chooser(r.error,r.list,function(c){scanInv(null,c.id)});return}
+  if(!r.ok){beep(false);say(r.error,false);return}
+  var row=null;
+  I.rows.forEach(function(x){if(x.kind===r.kind&&x.id===r.id&&!x.extra&&(r.kind==='card'||row===null))row=x});
+  if(r.kind==='card'){
+   if(row){
+    var members=kitMembers(r.id,[],0);
+    var kids=members.filter(function(x){return x.kind==='card'?!x.fact:(x.fact===null||x.fact===undefined)});
+    var allKids=members.length>0;
+    if(row.fact&&!kids.length){beep(false);say('Уже отмечено: '+r.name,false);return}
+    row.fact=1;
+    kids.forEach(function(x){x.fact=(x.kind==='card')?1:x.qty});
+    beep(true);say('Найдено: '+r.name+(allKids?' (+ комплектующих: '+kids.length+')':''),true);
+   }
+   else if(r.under&&!I.children){
+    ask('«'+r.name+'» находится на рабочем месте внутри «'+I.place.name+'». Загрузить список с подчинёнными местами? Отсканированное сохранится.',function(){
+     I.children=true;loadInv(true,function(){scanInv(code,cardId)});
+    });
+    beep(false);return;
+   }
+   else{
+    var ex=null;I.rows.forEach(function(x){if(x.extra&&x.kind==='card'&&x.id===r.id)ex=x});
+    if(ex){beep(false);say('Уже отмечено как лишнее: '+r.name,false);return}
+    I.rows.unshift({key:'x:'+r.id,kind:'card',id:r.id,name:r.name,inv:r.inv,serial:r.serial,qty:0,fact:1,extra:true,note:'лишнее'+(r.place?(' — по учёту: '+r.place):' — не числится нигде')});
+    beep(true);say('ЛИШНЕЕ: '+r.name,true);
+   }
+  }else{
+   if(row){row.fact=(row.fact||0)+1;beep(true);say(r.name+': '+row.fact,true)}
+   else{
+    var ex2=null;I.rows.forEach(function(x){if(x.extra&&x.kind==='item'&&x.id===r.id)ex2=x});
+    if(ex2){ex2.fact+=1}else{I.rows.unshift({key:'x:'+r.id,kind:'item',id:r.id,name:r.name,inv:'',serial:'',qty:0,fact:1,extra:true,note:'лишнее — нет по учёту на этом месте'})}
+    beep(true);say('ЛИШНЕЕ: '+r.name,true);
+   }
+  }
+  invSave();renderInv();
+ }).catch(function(er){beep(false);say(er.message,false)});
+}
+$('clr').onclick=function(){
+ if(!I.rows.length&&!I.place)return;
+ ask('Очистить инвентаризацию? Всё отсканированное и выбранное место будут сброшены.',function(){I={place:null,children:false,rows:[],loaded:false};invSave();say('');renderInv()});
+};
+$('save').onclick=function(){
+ var st=stats();
+ var msg='Сохранить инвентаризацию места «'+I.place.name+'»? Найдено: '+st.found+', НЕ найдено: '+st.miss+', лишних: '+st.extra+'.';
+ if(st.itemsTot-st.itemsDone>0)msg+=' Позиций без карточек не пересчитано: '+(st.itemsTot-st.itemsDone)+' (в документ не попадут).';
+ msg+=' Документ будет сохранён без проведения.';
+ ask(msg,function(){
+  var rows=[],extras=[];
+  I.rows.forEach(function(r){
+   if(r.extra){extras.push({kind:r.kind,id:r.id,fact:r.fact})}
+   else if(r.fact!==null&&r.fact!==undefined){rows.push({key:r.key,fact:r.fact})}
+  });
+  $('save').disabled=true;say('Сохранение…');
+  var doSave=function(empty){
+   api('isave',{tech:$('tech').value,place:I.place.id,children:I.children,rows:rows,extras:extras,lost:$('lostChk').checked,empty:!!empty}).then(function(r){
+    if(r.ok){beep(true);say('Готово: '+r.text,true);I={place:null,children:false,rows:[],loaded:false};invSave();renderInv()}
+    else if(r.empty){beep(false);renderInv();ask(r.error,function(){$('save').disabled=true;say('Сохранение…');doSave(true)})}
+    else{beep(false);say(r.error,false);renderInv()}
+   }).catch(function(er){beep(false);say(er.message,false);renderInv()});
+  };
+  doSave(false);
+ });
+};
+
+/* ---------- печать ---------- */
+function printCard(id,name){
+ if(!S.printers.length){beep(false);say('Принтеры не настроены',false);return Promise.resolve()}
+ var pr=$('printer').value;if(!pr){beep(false);say('Выберите принтер',false);return Promise.resolve()}
+ say('Печать…');
+ return api('aprint',{printer:pr,card:id,fmt:(S.mode==='inv'&&$('pfmt').value==='qr')?'qr':'bar'}).then(function(r){
+  if(r.ok){beep(true);say('Печать: '+r.text,true)}else{beep(false);say(r.error,false)}
+ }).catch(function(er){beep(false);say(er.message,false)});
+}
+$('pfmt').value=lsGet('pfmt')==='qr'?'qr':'bar';
+$('pfmt').onchange=function(){lsSet('pfmt',$('pfmt').value);$('pfmt').blur()};
+$('pfmt').onblur=function(){setTimeout(focusScan,100)};
+$('printer').onchange=function(){lsSet('printer',$('printer').value);$('printer').blur()};
+$('printer').onblur=function(){setTimeout(focusScan,100)};
+
+/* ---------- добавление ---------- */
+function aStage(n){
+ A.stage=n;
+ ['aS1','aS2','aS3','aS4'].forEach(function(id,i){$(id).className=(i+1===n)?'':'hide'});
+}
+function renderAdd(){
+ aStage(A.stage);
+ $('aPlace').textContent=A.place?A.place.name:'не выбрано';
+ $('aSave').disabled=!(A.item&&A.place&&$('tech').value&&$('aserial').value.trim());
+ $('autoPrint').checked=lsGet('autoPrint')!==false;
+}
+function aSearch(){
+ var q=$('aq').value.trim(),box=$('alist');
+ if(q.length<2){box.innerHTML='<div class="empty">Введите минимум 2 символа</div>';return}
+ var my=++A.seq;
+ api('asearch',{q:q}).then(function(r){
+  if(my!==A.seq)return;
+  box.innerHTML='';
+  if(!r.ok){say(r.error,false);return}
+  if(!r.items.length){box.innerHTML='<div class="empty">Ничего не найдено</div>';return}
+  r.items.forEach(function(it){
+   var d=document.createElement('div');d.className='pl';
+   d.textContent=it.name+(it.card?'':'  (без учёта по карточкам)');
+   if(!it.card)d.style.opacity='.55';
+   d.onclick=function(){A.item=it;$('aItem').textContent=it.name;$('aItem2').textContent=it.name;
+    $('aWarn').textContent=it.card?'':'По этой номенклатуре не ведется учет по карточкам, оприходуйте её через 1С.';
+    $('aCreate').disabled=!it.card;aStage(2);say('')};
+   box.appendChild(d);
+  });
+  if(r.more){var m=document.createElement('div');m.className='hint';m.textContent='Показаны первые 40, уточните запрос';box.appendChild(m)}
+ }).catch(function(er){say(er.message,false)});
+}
+$('aq').oninput=function(){clearTimeout(A.timer);A.timer=setTimeout(aSearch,350)};
+$('aOther').onclick=function(){aStage(1);$('aq').focus()};
+$('aCreate').onclick=function(){$('aserial').value='';aStage(3);renderAdd();$('aserial').focus()};
+$('aBack').onclick=function(){aStage(2)};
+$('aserial').oninput=renderAdd;
+$('aserial').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('aserial').blur();renderAdd()}});
+$('aPlaceBox').onclick=function(){pickPlace(function(p){A.place=p;lsSet('addPlace',p);renderAdd()})};
+$('autoPrint').onchange=function(){lsSet('autoPrint',$('autoPrint').checked)};
+$('aSave').onclick=function(){
+ var serial=$('aserial').value.trim();
+ ask('Оприходовать «'+A.item.name+'», с/н '+serial+', на место «'+A.place.name+'»? Будет создана карточка и проведён «Ввод остатков».',function(){
+  $('aSave').disabled=true;say('Сохранение…');
+  api('aadd',{tech:$('tech').value,item:A.item.id,serial:serial,place:A.place.id}).then(function(r){
+   if(!r.ok){beep(false);say(r.error,false);renderAdd();return}
+   beep(true);A.res=r;
+   $('aDone').textContent=r.name+'  ·  с/н '+r.serial+'  ·  документ № '+r.number;
+   $('aBc').textContent=r.barcode;
+   aStage(4);say('Оприходовано: '+r.name,true);
+   if($('autoPrint').checked&&S.printers.length)printCard(r.id,r.name);
+  }).catch(function(er){beep(false);say(er.message,false);renderAdd()});
+ });
+};
+$('aPrint').onclick=function(){if(A.res)printCard(A.res.id,A.res.name)};
+$('aSame').onclick=function(){$('aserial').value='';aStage(3);renderAdd();say('');$('aserial').focus()};
+$('aNew').onclick=function(){A.item=null;A.res=null;$('aq').value='';$('alist').innerHTML='';aStage(1);say('');$('aq').focus()};
+
+/* ---------- камера и ручной ввод ---------- */
+var C={h:null,cb:null,cont:false,last:'',lastT:0,libP:null,lib:'api/lib?v=3'};
+function loadLib(){
+ if(window.Html5Qrcode)return Promise.resolve();
+ if(C.libP)return C.libP;
+ C.libP=new Promise(function(res,rej){var sc=document.createElement('script');sc.src=C.lib;sc.onload=function(){res()};sc.onerror=function(){C.libP=null;rej(new Error('не удалось загрузить модуль сканирования'))};document.head.appendChild(sc)});
+ return C.libP;
+}
+function camFormats(){var F=window.Html5QrcodeSupportedFormats;return [F.QR_CODE,F.EAN_13,F.EAN_8,F.CODE_128,F.CODE_39,F.CODE_93,F.ITF,F.UPC_A,F.UPC_E,F.DATA_MATRIX]}
+function camStop(){
+ var h=C.h;C.h=null;
+ if(!h)return Promise.resolve();
+ var p;try{p=h.isScanning?h.stop():Promise.resolve()}catch(e){p=Promise.resolve()}
+ return p.then(function(){try{h.clear()}catch(e){}},function(){try{h.clear()}catch(e){}});
+}
+function camClose(){camStop().then(function(){$('cam').style.display='none';$('camView').innerHTML='';C.cb=null;focusScan()})}
+function camGot(text){
+ text=String(text||'').trim();if(!text)return;
+ var now=Date.now();if(text===C.last&&now-C.lastT<3000){return}
+ C.last=text;C.lastT=now;
+ var cb=C.cb,cont=C.cont;
+ if(!cb)return;
+ if(!cont){camClose()}
+ cb(text);
+}
+function camFallback(msg){
+ camStop().then(function(){
+  $('camView').innerHTML='<div class="mut" style="padding:14px;color:#ddd">'+msg+'</div>';
+  $('camMsg').className='';$('camMsg').textContent='';
+  $('camPhoto').className='big';
+ });
+}
+function openCam(cb,cont){
+ C.cb=cb;C.cont=!!cont;C.last='';C.lastT=0;
+ $('cam').style.display='flex';$('camView').innerHTML='';$('camMsg').className='';$('camMsg').textContent='Запуск камеры…';
+ $('camPhoto').className='big sec';
+ var live=window.isSecureContext&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia;
+ if(!live){camFallback('Живое сканирование камерой работает только по HTTPS. Нажмите «Снимок» и сфотографируйте штрихкод.');return}
+ loadLib().then(function(){
+  var h=new Html5Qrcode('camView',{formatsToSupport:camFormats(),useBarCodeDetectorIfSupported:true,verbose:false});
+  C.h=h;
+  return h.start({facingMode:'environment'},{fps:12,videoConstraints:{facingMode:'environment',width:{ideal:1920},height:{ideal:1080}}},camGot,function(){});
+ }).then(function(){$('camMsg').textContent='Наведите камеру на штрихкод'}).catch(function(e){
+  camFallback('Камера недоступна ('+((e&&e.message)||e)+'). Нажмите «Снимок», чтобы сфотографировать штрихкод.');
+ });
+}
+$('camClose').onclick=camClose;
+$('camPhoto').onclick=function(){$('camFile').value='';$('camFile').click()};
+$('camFile').onchange=function(){
+ var f=$('camFile').files&&$('camFile').files[0];if(!f)return;
+ $('camMsg').className='';$('camMsg').textContent='Распознаю снимок…';
+ loadLib().then(function(){
+  return camStop().then(function(){
+   var h=new Html5Qrcode('camView',{formatsToSupport:camFormats(),useBarCodeDetectorIfSupported:true,verbose:false});
+   return h.scanFile(f,false).then(function(t){try{h.clear()}catch(e){}return t},function(er){try{h.clear()}catch(e){}throw er});
+  });
+ }).then(function(t){C.last='';camGot(t)}).catch(function(){$('camMsg').className='er';$('camMsg').textContent='Не удалось распознать. Снимите ближе, чтобы код занимал большую часть кадра, без бликов.';beep(false)});
+};
+function handleScan(code){if(S.mode==='inv')scanInv(code);else scanMove(code)}
+$('camBtn').onclick=function(e){e.stopPropagation();openCam(handleScan,true)};
+$('aCam').onclick=function(e){e.stopPropagation();openCam(function(t){$('aserial').value=t;renderAdd();beep(true)},false)};
+$('aKb').onclick=function(e){e.stopPropagation();$('aserial').focus()};
+$('kbBtn').onclick=function(e){
+ e.stopPropagation();var sc=$('scan');
+ sc.setAttribute('inputmode','text');sc.blur();sc.focus();
+};
+function kbOff(){var sc=$('scan');sc.setAttribute('inputmode','none')}
+$('scan').addEventListener('blur',function(){setTimeout(function(){if(document.activeElement!==$('scan'))kbOff()},250)});
+document.addEventListener('touchstart',function(){if(actx&&actx.state==='suspended')actx.resume()},{passive:true});
+
+/* ---------- общее ---------- */
+function render(){if(S.mode==='inv')renderInv();else if(S.mode==='add')renderAdd();else renderMove()}
+$('scan').addEventListener('keydown',function(e){
+ if(e.key!=='Enter')return;e.preventDefault();
+ var code=$('scan').value.trim();$('scan').value='';kbOff();$('scan').blur();setTimeout(focusScan,60);if(!code)return;
+ handleScan(code);
+});
+document.addEventListener('click',function(e){var t=e.target;if(t&&(t.id==='tech'||t.id==='printer'||t.id==='pfmt'||t.id==='kbBtn'||t.id==='aKb'||t.id==='aCam'||t.id==='camBtn'))return;setTimeout(focusScan,50)});
+setInterval(focusScan,2000);
+api('init').then(function(r){
+ if(!r.ok){say(r.error,false);return}
+ S.techs=r.techs;S.places=r.places;S.printers=r.printers||[];
+ var psel=$('printer'),psv=lsGet('printer');S.printers.forEach(function(p){var o=document.createElement('option');o.value=p.id;o.textContent=p.name;psel.appendChild(o)});
+ if(S.printers.length)psel.value=(psv&&S.printers.some(function(p){return p.id===psv}))?psv:S.printers[0].id;
+ var ap=lsGet('addPlace');if(ap&&r.places.some(function(p){return p.id===ap.id}))A.place=ap;
+ var sel=$('tech'),saved=lsGet('tech');
+ r.techs.forEach(function(t){var o=document.createElement('option');o.value=t.id;o.textContent=t.name;sel.appendChild(o)});
+ sel.value=(saved&&r.techs.some(function(t){return t.id===saved}))?saved:r.defaultTech;
+ var si=lsGet('inv');if(si&&si.place&&si.rows){I=si}
+ var sm=lsGet('mode');setMode(sm==='inv'||sm==='add'?sm:'move');
+}).catch(function(er){say(er.message,false)});
+</script>
+</body>
+</html>
