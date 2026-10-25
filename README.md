@@ -23,4 +23,4 @@
 
 ## Лицензия
 
-Не указана. Страница планшета использует библиотеку `html5-qrcode` (Apache-2.0), копия в `WarehouseTablet/vendor/`.
+[MIT](LICENSE). Страница планшета использует библиотеку `html5-qrcode` (Apache-2.0), копия с лицензией в `WarehouseTablet/vendor/`.
